@@ -31,17 +31,11 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
-.vscode/
-
-### Mac OS ###
-.DS_Store
-
 #
 /target/
 /.idea/
-/logs/
 /test-output/
 /*.iml
 *.log
 /.mvn
+auto_push.py
