@@ -1,6 +1,6 @@
 package com.org.utils;
 
-import com.org.base.BaseTest;
+import com.org.base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.function.Function;
 
-public class Waits extends BaseTest {
+public class Waits extends Base {
     private WebDriver driver;
 
     //initilise driver

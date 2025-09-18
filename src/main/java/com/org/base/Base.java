@@ -2,14 +2,22 @@ package com.org.base;
 
 import com.org.utils.Waits;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class BaseTest {
+
+public class Base {
     public static WebDriver driver;
     public static Waits waits;
 
@@ -46,5 +54,23 @@ public class BaseTest {
             driver.quit();
 
         }
+    }
+
+    public static String CapturScreen (String testName){
+        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String filePath = System.getProperty("user.dir") + "/screenshots/" + testName + "_" + timestamp + ".png";
+
+        try{
+            TakesScreenshot ts = (TakesScreenshot) driver;
+            File Source = ts.getScreenshotAs(OutputType.FILE);
+            File destination = new File(filePath);
+
+            FileUtils.copyFile(Source,destination);
+            System.out.println("Screenshot saved at: " + filePath);
+        }catch (IOException e){
+            System.out.println("Screenshot saved at: " + filePath);
+        }
+
+        return filePath;
     }
 }

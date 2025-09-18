@@ -1,6 +1,6 @@
 package com.org.tests;
 
-import com.org.base.BaseTest;
+import com.org.base.Base;
 import com.org.pages.HomePage;
 import com.org.pages.LoginPage;
 import com.org.utils.LoggerHelper;
@@ -12,7 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class LoginTest {
+public class LoginTest extends Base {
 
     WebDriver driver;
     LoginPage loginPage;
@@ -22,7 +22,7 @@ public class LoginTest {
     @BeforeTest
     public void Setup(){
         System.setProperty("log4j.configurationFile", "src/main/resources/log4j2.xml");
-        driver = BaseTest.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
+        driver = Base.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
         loginPage = new LoginPage(driver);
     }
 
@@ -67,7 +67,7 @@ public class LoginTest {
     }
     @AfterMethod
     public void closedBrowser(){
-        BaseTest.closeApplication();
+        Base.closeApplication();
         logger.info("Browser closed successfully.");
     }
 }

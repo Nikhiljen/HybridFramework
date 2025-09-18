@@ -1,9 +1,7 @@
 package com.org.pages;
 
-import com.org.base.BaseTest;
+import com.org.base.Base;
 import com.org.utils.Waits;
-import org.apache.hc.core5.http.support.Expectation;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import java.net.HttpURLConnection;
@@ -13,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
-public class HomePage extends BaseTest {
+public class HomePage extends Base {
 
     WebDriver driver;
     public static Waits waits;

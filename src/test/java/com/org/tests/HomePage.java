@@ -1,7 +1,6 @@
 package com.org.tests;
 
-import com.org.base.BaseTest;
-import com.org.pages.HomePage;
+import com.org.base.Base;
 import com.org.utils.LoggerHelper;
 import com.org.utils.configReader;
 import org.apache.logging.log4j.Logger;
@@ -11,18 +10,18 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class HomePageTest extends BaseTest{
+public class HomePage extends Base {
 
     //Intilise Webdriver
     WebDriver driver;
-    HomePage homePage;
-    private static final Logger logger = LoggerHelper.getLogger(HomePageTest.class);
+    com.org.pages.HomePage homePage;
+    private static final Logger logger = LoggerHelper.getLogger(HomePage.class);
 
     //Run this before every test case to intilise driver
     @BeforeTest
     public void Setup(){
-        driver = BaseTest.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
-        homePage = new HomePage(driver);
+        driver = Base.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
+        homePage = new com.org.pages.HomePage(driver);
     }
 
     @Test
@@ -42,7 +41,7 @@ public class HomePageTest extends BaseTest{
 
     @AfterMethod
     public void closedBrowser(){
-        BaseTest.closeApplication();
+        Base.closeApplication();
         logger.info("Browser closed successfully.");
     }
 
