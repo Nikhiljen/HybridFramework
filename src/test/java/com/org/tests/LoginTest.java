@@ -3,6 +3,7 @@ package com.org.tests;
 import com.org.base.Base;
 import com.org.pages.HomePage;
 import com.org.pages.LoginPage;
+import com.org.utils.DataGetter;
 import com.org.utils.LoggerHelper;
 import com.org.utils.configReader;
 import org.apache.logging.log4j.Logger;
@@ -26,13 +27,8 @@ public class LoginTest extends Base {
         loginPage = new LoginPage(driver);
     }
 
-    @Test
-    public void TestCase_101(){
-        String userName = configReader.getProperty("username");
-        String passWord = configReader.getProperty("password");
-        String usertype = configReader.getProperty("user_type");
-        String userRole = configReader.getProperty("user_role");
-
+    @Test(dataProvider = "LoginData", dataProviderClass = DataGetter.class)
+    public void TestCase_101(String userName,String passWord,String usertype,String userRole){
         try{
             //Enter username and password
             loginPage.inputUsername(userName);

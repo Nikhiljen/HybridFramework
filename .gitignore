@@ -38,4 +38,4 @@ build/
 /*.iml
 *.log
 /.mvn
-auto_push.py
+autogit.py

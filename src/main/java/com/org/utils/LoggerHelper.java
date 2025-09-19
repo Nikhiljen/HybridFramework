@@ -9,6 +9,7 @@ public class LoggerHelper {
     };
 
     public static Logger getLogger(Class<?> clazz){
+
         return LogManager.getLogger(clazz);
     }
 }
