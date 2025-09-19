@@ -18,50 +18,68 @@ import java.util.Date;
 
 
 public class Base {
-    public static WebDriver driver;
     public static Waits waits;
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
 
 
     public static WebDriver openApplication(String browser, String url){
+
+        WebDriver drv = null;
+
+
         if(browser.equalsIgnoreCase("chrome")){
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+            drv = new ChromeDriver();
         }else if(browser.equalsIgnoreCase("firefox")){
             WebDriverManager.firefoxdriver().setup();
-            driver = new FirefoxDriver();
+            drv = new FirefoxDriver();
         }else if(browser.equalsIgnoreCase("edge")){
             WebDriverManager.edgedriver().setup();
-            driver = new EdgeDriver();
+            drv = new EdgeDriver();
         } else if(browser.equalsIgnoreCase("safari")){
             WebDriverManager.safaridriver().setup();
-            driver = new SafariDriver();
+            drv= new SafariDriver();
         }
 
-        driver.manage().window().maximize();
+        // Store this driver in ThreadLocal
+        driver.set(drv);
+
+        drv.manage().window().maximize();
         //Open base url of application
-        driver.get(url);
+        drv.get(url);
 
         //wait for application to load
-        waits = new Waits(driver);
+        waits = new Waits(drv);
         waits.setImplicitwait(10);
         waits.setPageLoadtime(10);
-        return driver;
+        return drv;
 
     }
 
     public static void closeApplication(){
-        if(driver != null){
-            driver.quit();
+        if(getDriver() != null){
+            getDriver().quit();
+            driver.remove();
 
         }
     }
 
     public static String CapturScreen (String testName){
+        WebDriver drv = getDriver();
+
+        if (drv == null) {
+            System.out.println("⚠️ WebDriver is null, cannot take screenshot");
+            return null;
+        }
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         String filePath = System.getProperty("user.dir") + "/screenshots/" + testName + "_" + timestamp + ".png";
 
         try{
-            TakesScreenshot ts = (TakesScreenshot) driver;
+            TakesScreenshot ts = (TakesScreenshot) drv;
             File Source = ts.getScreenshotAs(OutputType.FILE);
             File destination = new File(filePath);
 
