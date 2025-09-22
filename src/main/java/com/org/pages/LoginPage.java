@@ -22,27 +22,27 @@ public class LoginPage extends Base {
     }
 
     @FindBy(id = "username")
-    WebElement usernameFeild;
+    private WebElement usernameFeild;
 
     @FindBy(xpath = "//*[@id='password']")
-    WebElement passwordField;
+    private WebElement passwordField;
 
     @FindBy(xpath = "//*[@id = 'usertype' and @value = 'admin']")
-    WebElement Admin;
+    private WebElement Admin;
     @FindBy(xpath = "//*[@id = 'usertype' and @value='user']")
-    WebElement User;
+    private WebElement User;
 
     @FindBy(xpath = "//*[@class = 'form-control' and @data-style = 'btn-info']")
-    WebElement userRole;
+    private WebElement userRole;
 
     @FindBy(id = "terms")
-    WebElement agreeCondtion;
+    private WebElement agreeCondtion;
 
     @FindBy(xpath = "//*[@id = 'signInBtn']")
-    WebElement signButton;
+    private WebElement signButton;
 
     @FindBy(xpath = "//*[@id = 'okayBtn']")
-    WebElement htmlModelAlert;
+    private WebElement htmlModelAlert;
 
 
     //Method to do operations

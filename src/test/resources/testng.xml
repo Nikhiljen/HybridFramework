@@ -2,7 +2,8 @@
 <suite name="TestSuite">
     <test name="homepageTests">
         <classes>
-            <class name="com.org.tests.HomepageTest"/>
+            <class name = "com.org.tests.HomepageTest"/>
+            <class name="com.org.tests.LoginTest"/>
         </classes>
     </test>
 </suite>

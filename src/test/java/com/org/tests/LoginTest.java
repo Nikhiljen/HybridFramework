@@ -18,7 +18,7 @@ public class LoginTest extends Base {
     public void Setup(){
         System.setProperty("log4j.configurationFile", "src/main/resources/log4j2.xml");
         Base.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
-        loginPage = new LoginPage(Base.getDriver());;
+        loginPage = new LoginPage(Base.getDriver());
     }
 
     @Test(dataProvider = "LoginData", dataProviderClass = DataGetter.class)
