@@ -7,8 +7,11 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.safari.SafariDriver;
 
 import java.io.File;
@@ -31,18 +34,32 @@ public class Base {
         WebDriver drv = null;
 
 
-        if(browser.equalsIgnoreCase("chrome")){
+        if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
-            drv = new ChromeDriver();
-        }else if(browser.equalsIgnoreCase("firefox")){
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless=new");  // Run Chrome in headless mode
+            options.addArguments("--window-size=1920,1080"); // Set screen size
+            drv = new ChromeDriver(options);
+
+        } else if (browser.equalsIgnoreCase("firefox")) {
             WebDriverManager.firefoxdriver().setup();
-            drv = new FirefoxDriver();
-        }else if(browser.equalsIgnoreCase("edge")){
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("--headless"); // Run Firefox in headless mode
+            options.addArguments("--width=1920");
+            options.addArguments("--height=1080");
+            drv = new FirefoxDriver(options);
+
+        } else if (browser.equalsIgnoreCase("edge")) {
             WebDriverManager.edgedriver().setup();
-            drv = new EdgeDriver();
-        } else if(browser.equalsIgnoreCase("safari")){
+            EdgeOptions options = new EdgeOptions();
+            options.addArguments("--headless=new"); // Headless Edge
+            options.addArguments("--window-size=1920,1080");
+            drv = new EdgeDriver(options);
+
+        } else if (browser.equalsIgnoreCase("safari")) {
+            // ❌ Safari does not support headless mode
             WebDriverManager.safaridriver().setup();
-            drv= new SafariDriver();
+            drv = new SafariDriver();
         }
 
         // Store this driver in ThreadLocal
