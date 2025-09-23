@@ -3,6 +3,7 @@ package com.org.tests;
 import com.org.base.Base;
 import com.org.pages.*;
 import com.org.pages.HomePage;
+import com.org.utility.DataGetter;
 import com.org.utils.*;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;

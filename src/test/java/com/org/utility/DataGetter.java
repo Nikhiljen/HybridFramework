@@ -1,6 +1,7 @@
-package com.org.utils;
+package com.org.utility;
 
 import com.org.base.Base;
+import com.org.utils.Excell_Utill;
 import org.testng.annotations.DataProvider;
 
 public class DataGetter extends Base {
