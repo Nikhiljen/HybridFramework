@@ -1,14 +1,14 @@
-package com.org.utils;
+package com.org.utility;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.org.base.Base;
+import com.org.utils.ExtentManager;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import java.io.File;
-import java.io.IOException;
 
 public class TestListener extends Base implements ITestListener{
 
