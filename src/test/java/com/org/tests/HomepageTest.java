@@ -27,7 +27,7 @@ public class HomepageTest extends Base {
     }
 
     @Test
-    public void teseCase001_verifyHomePageLogoImage(){
+    public void testCase001_verifyHomePageLogoImage(){
         try{
             int responseCode = homePage.ImageProcessor();
             Assert.assertEquals(responseCode,200);

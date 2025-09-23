@@ -7,6 +7,7 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import java.io.File;
 import java.io.IOException;
 
 public class TestListener extends Base implements ITestListener{
@@ -16,7 +17,13 @@ public class TestListener extends Base implements ITestListener{
 
     @Override
     public void onStart(ITestContext context) {
-        String fileName = "test-output/extent-" + System.currentTimeMillis() + ".html";
+        String outputPath = System.getProperty("user.dir") + "/test-output";
+        File outputDir = new File(outputPath);
+        if (!outputDir.exists()) {
+            outputDir.mkdir();
+        }
+
+        String fileName = outputPath + "/ExtentReport-" + System.currentTimeMillis() + ".html";
         extent = ExtentManager.getInstance(fileName);
     }
 
