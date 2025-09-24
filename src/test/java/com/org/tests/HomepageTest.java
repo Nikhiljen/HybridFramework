@@ -1,10 +1,8 @@
 package com.org.tests;
 
 import com.org.base.Base;
-import com.org.pages.HomePage;
-import com.org.pages.RegisterPage;
-import com.org.utils.LoggerHelper;
-import com.org.utils.configReader;
+import com.org.pages.*;
+import com.org.utils.*;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -16,6 +14,7 @@ public class HomepageTest extends Base {
     //Initialise
     HomePage homePage;
     RegisterPage registerpage;
+    SearchPage searchPage;
     private static final Logger logger = LoggerHelper.getLogger(HomepageTest.class);
 
     //Run this before every test case to initialise driver
@@ -25,6 +24,8 @@ public class HomepageTest extends Base {
         Base.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
         homePage = new HomePage(Base.getDriver());
         registerpage = new RegisterPage(Base.getDriver());
+        searchPage = new SearchPage(Base.getDriver());
+
     }
 
     @Test
@@ -42,14 +43,27 @@ public class HomepageTest extends Base {
         }
     }
 
-//    public void
+    @Test
+    public void testCase002_verifyLogInPageNavigation(){
+        homePage.headerLink("Log in");
+        Assert.assertTrue(registerpage.getPageTitle().contains("Welcome, Please Sign In!"));
+        logger.info("Login Page Test is passed");
+    }
 
     @Test
-    public void testCase002_verifyRegisterPageNavigation(){
+    public void testCase003_verifyRegisterPageNavigation(){
         homePage.headerLink("Register");
-        Assert.assertTrue(registerpage.getPageTitle().contains("Register"));
-        logger.info("Test is passed");
+        Assert.assertTrue(registerpage.getPageTitle().contains(configReader.getProperty("registerTitleName")));
+        logger.info("Register Navigation Test is passed");
     }
+
+    public void testCase004_verifySearchBoxValidationWithValid_Invalid_NoProductName(){
+        homePage.insertItemInSearchBar(configReader.getProperty("validItemName"));
+        Assert.assertTrue(registerpage.getPageTitle().contains(configReader.getProperty("SearchTitleName")));
+        logger.info("Search Page Test is passed");
+    }
+
+
 
     @AfterMethod
     public void closedBrowser(){

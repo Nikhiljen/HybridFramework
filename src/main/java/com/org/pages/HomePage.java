@@ -35,6 +35,12 @@ public class HomePage extends Base {
     @FindBy(xpath= "//*[@class='header-links']//a")
     private List<WebElement> headerList;
 
+    @FindBy(xpath = "//*[@id='small-searchterms']")
+    private WebElement searchBar;
+
+    @FindBy(xpath = "//*[contains(@class,'search-box-button')]")
+    private WebElement searchButton;
+
     //Method to call from tests cases
     public int ImageProcessor() {
         waits = new Waits(driver);
@@ -69,4 +75,10 @@ public class HomePage extends Base {
             logger.info("Error while navigating to: " + linkName + " - " + e.getMessage());
         }
     }
+
+    public void insertItemInSearchBar(String item){
+        searchBar.sendKeys(item);
+        searchButton.click();
+    }
+
 }
