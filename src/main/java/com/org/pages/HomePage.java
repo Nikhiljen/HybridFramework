@@ -18,7 +18,7 @@ public class HomePage extends Base {
 
     WebDriver driver;
     public static Waits waits;
-    private static final Logger logger = LoggerHelper.getLogger(LoginPage.class);
+    private static final Logger logger = LoggerHelper.getLogger(HomePage.class);
 
 
 //   used PageFactory method to avoid stale element exceptions
@@ -33,7 +33,7 @@ public class HomePage extends Base {
     private WebElement image;
 
     @FindBy(xpath= "//*[@class='header-links']//a")
-    private List<WebElement> headerList;;
+    private List<WebElement> headerList;
 
     //Method to call from tests cases
     public int ImageProcessor() {

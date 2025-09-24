@@ -38,7 +38,13 @@ public class Excell_Utill {
         return switch (cell.getCellType()) {
             case STRING -> cell.getStringCellValue();
             case BOOLEAN -> cell.getBooleanCellValue();
-            case NUMERIC -> String.valueOf((int) cell.getNumericCellValue());
+            case NUMERIC -> {
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    yield cell.getDateCellValue();  // return Date if needed
+                } else {
+                    yield String.valueOf((int) cell.getNumericCellValue());
+                }
+            }
             default -> "";
         };
 

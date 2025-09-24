@@ -7,15 +7,15 @@ import com.org.utils.LoggerHelper;
 import com.org.utils.configReader;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
+
+@Listeners(com.org.utility.TestListener.class)
 public class HomepageTest extends Base {
 
     //Initialise
     HomePage homePage;
+    RegisterPage registerpage;
     private static final Logger logger = LoggerHelper.getLogger(HomepageTest.class);
 
     //Run this before every test case to initialise driver
@@ -24,6 +24,7 @@ public class HomepageTest extends Base {
         System.setProperty("log4j.configurationFile", "src/main/resources/log4j2.xml");
         Base.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
         homePage = new HomePage(Base.getDriver());
+        registerpage = new RegisterPage(Base.getDriver());
     }
 
     @Test
@@ -46,8 +47,6 @@ public class HomepageTest extends Base {
     @Test
     public void testCase002_verifyRegisterPageNavigation(){
         homePage.headerLink("Register");
-        RegisterPage registerpage = new RegisterPage(Base.getDriver());
-
         Assert.assertTrue(registerpage.getPageTitle().contains("Register"));
         logger.info("Test is passed");
     }
