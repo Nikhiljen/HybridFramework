@@ -40,22 +40,25 @@ public class RegisterTest extends Base {
         registerPage.fillEmailIdField(emailId);
         registerPage.fillPasswordField(password);
         registerPage.fillConfirmPasswordField(confirmPassword);
-        register_result_page = registerPage.clickOnRegisterButton();
+
 
 
         switch (type) {
             case VALID:
+                register_result_page = registerPage.clickOnRegisterButton();
                 Assert.assertTrue(register_result_page.isMessageDisplay(),
                         "Registration message was not displayed!");
                 break;
 
             case INVALID:
+                registerPage.clickOnRegisterButton();
                 String errorMsg1 = registerPage.getErrorMessage(RegistrationType.INVALID);
                 Assert.assertEquals(errorMsg1, configReader.getProperty("wrong_emailtext"),
                         "Invalid email error mismatch");
                 break;
 
             case DUPLICATE:
+                registerPage.clickOnRegisterButton();
                 String errorMsg2 = registerPage.getErrorMessage(RegistrationType.DUPLICATE);
                 Assert.assertEquals(errorMsg2, configReader.getProperty("duplicate_emailText"),
                         "Duplicate email error mismatch");
