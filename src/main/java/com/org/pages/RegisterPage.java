@@ -2,8 +2,7 @@ package com.org.pages;
 
 import com.org.base.Base;
 import com.org.utils.LoggerHelper;
-import com.org.utils.RegistrationType;
-import com.org.utils.Waits;
+import com.org.utils.TypeOfValidation;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -123,7 +122,7 @@ public class RegisterPage extends Base {
         }
     }
 
-    public String getErrorMessage(RegistrationType message){
+    public String getErrorMessage(TypeOfValidation message){
 
         switch(message){
             case INVALID:

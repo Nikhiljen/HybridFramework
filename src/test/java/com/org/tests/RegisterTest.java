@@ -6,10 +6,9 @@ import com.org.pages.RegisterPage;
 import com.org.pages.RegisterResultPage;
 import com.org.utility.DataGetter;
 import com.org.utils.LoggerHelper;
-import com.org.utils.RegistrationType;
+import com.org.utils.TypeOfValidation;
 import com.org.utils.configReader;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.formula.atp.Switch;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -32,7 +31,7 @@ public class RegisterTest extends Base {
     }
 
     @Test(dataProvider = "RegisterData", dataProviderClass = DataGetter.class)
-    public void testcase001Registartionwithmailid(String gender, String firstname, String lastname, String emailId, String password, String confirmPassword, RegistrationType type){
+    public void testcase001Registartionwithmailid(String gender, String firstname, String lastname, String emailId, String password, String confirmPassword, TypeOfValidation type){
         homePage.headerLink("Register");
         registerPage.selectUserGender(gender);
         registerPage.fillFirstNameField(firstname);
@@ -52,14 +51,14 @@ public class RegisterTest extends Base {
 
             case INVALID:
                 registerPage.clickOnRegisterButton();
-                String errorMsg1 = registerPage.getErrorMessage(RegistrationType.INVALID);
+                String errorMsg1 = registerPage.getErrorMessage(TypeOfValidation.INVALID);
                 Assert.assertEquals(errorMsg1, configReader.getProperty("wrong_emailtext"),
                         "Invalid email error mismatch");
                 break;
 
             case DUPLICATE:
                 registerPage.clickOnRegisterButton();
-                String errorMsg2 = registerPage.getErrorMessage(RegistrationType.DUPLICATE);
+                String errorMsg2 = registerPage.getErrorMessage(TypeOfValidation.DUPLICATE);
                 Assert.assertEquals(errorMsg2, configReader.getProperty("duplicate_emailText"),
                         "Duplicate email error mismatch");
                 break;

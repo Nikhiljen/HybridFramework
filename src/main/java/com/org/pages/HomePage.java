@@ -36,7 +36,7 @@ public class HomePage extends Base {
     private List<WebElement> headerList;
 
     @FindBy(xpath = "//*[@id='small-searchterms']")
-    private WebElement searchBar;
+    private WebElement searchBox;
 
     @FindBy(xpath = "//*[contains(@class,'search-box-button')]")
     private WebElement searchButton;
@@ -76,9 +76,16 @@ public class HomePage extends Base {
         }
     }
 
-    public void insertItemInSearchBar(String item){
-        searchBar.sendKeys(item);
+    public SearchPage searchItem(String item) {
+        searchBox.sendKeys(item);
         searchButton.click();
+        return new SearchPage(driver);
+    }
+
+    public HomePage searchEmptyItem(String item) {
+        searchBox.sendKeys(item);
+        searchButton.click();
+        return new HomePage(driver);
     }
 
 }

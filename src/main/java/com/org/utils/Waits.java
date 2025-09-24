@@ -1,10 +1,7 @@
 package com.org.utils;
 
 import com.org.base.Base;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -56,6 +53,15 @@ public class Waits extends Base {
 
     public void setPageLoadtime(long timeoutInSeconds){
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(timeoutInSeconds));
+    }
+
+    public Alert alertIsPresent(long timeoutInSeconds){
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+            return wait.until(ExpectedConditions.alertIsPresent());
+        } catch (TimeoutException e) {
+            return null; // no alert found
+        }
     }
 
 }
