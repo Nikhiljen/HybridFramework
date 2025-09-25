@@ -1,9 +1,10 @@
 package com.org.utils;
 
+import com.org.base.Base;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 
-public class AlertUtility {
+public class AlertUtility extends Base {
     private WebDriver driver;
     private Waits wait;
 

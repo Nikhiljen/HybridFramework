@@ -25,9 +25,9 @@ public class RegisterTest extends Base {
     public void Setup(){
         System.setProperty("log4j.configurationFile", "src/main/resources/log4j2.xml");
         Base.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
-        homePage = new HomePage(Base.getDriver());
-        registerPage = new RegisterPage(Base.getDriver());
-        register_result_page = new RegisterResultPage(Base.getDriver());
+        homePage = new HomePage();
+        registerPage = new RegisterPage();
+        register_result_page = new RegisterResultPage();
     }
 
     @Test(dataProvider = "RegisterData", dataProviderClass = DataGetter.class)

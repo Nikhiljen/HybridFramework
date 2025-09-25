@@ -4,7 +4,6 @@ import com.org.base.Base;
 import com.org.utils.LoggerHelper;
 import com.org.utils.TypeOfValidation;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -12,12 +11,10 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class RegisterPage extends Base {
-    WebDriver driver;
     private static final Logger logger = LoggerHelper.getLogger(RegisterPage.class);
 
-    public RegisterPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public RegisterPage() {
+        PageFactory.initElements(getDriver(), this);
     }
 
 
@@ -52,9 +49,6 @@ public class RegisterPage extends Base {
 
 
    //Method
-    public String getPageTitle(){
-            return driver.getTitle();
-    }
 
     public void selectUserGender(String gender){
         if (genderOfUser == null || genderOfUser.isEmpty()) {
@@ -115,7 +109,7 @@ public class RegisterPage extends Base {
         try{
             registerButton.click();
             logger.info("Register Button clicked successfully.");
-            return new RegisterResultPage(driver);
+            return new RegisterResultPage();
         } catch(Exception e){
             logger.error("Failed to click Register Button.", e);
             throw e;

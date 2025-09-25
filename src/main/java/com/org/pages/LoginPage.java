@@ -11,18 +11,13 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 public class LoginPage extends Base {
-    public WebDriver driver;
-    public WebElement radioButton = null;
+    private WebDriver driver;
+    private WebElement radioButton = null;
     private static final Logger logger = LoggerHelper.getLogger(LoginPage.class);
-    public static Waits waits;
+    private static Waits waits;
 
-    public LoginPage(WebDriver driver){
-        this.driver = driver;
-        PageFactory.initElements(driver,this);
-    }
-
-    public String getPageTitle(){
-        return driver.getTitle();
+    public LoginPage(){
+        PageFactory.initElements(getDriver(),this);
     }
 
 }

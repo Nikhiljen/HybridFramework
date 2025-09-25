@@ -19,17 +19,12 @@ public class SearchPage extends Base {
     private WebElement errorMessage;
 
     //   used PageFactory method to avoid stale element exceptions
-    public SearchPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
-
-    public String getPageTitle(){
-        return driver.getTitle();
+    public SearchPage() {
+        PageFactory.initElements(getDriver(), this);
     }
 
     public String getErrorMessage(){
-        return errorMessage.getText();
+        return errorMessage.getText().trim();
     }
 
 

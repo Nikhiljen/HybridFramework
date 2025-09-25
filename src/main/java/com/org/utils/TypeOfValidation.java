@@ -4,5 +4,6 @@ public enum TypeOfValidation {
     VALID,
     INVALID,
     DUPLICATE,
-    NO_PRODUCT
+    NO_PRODUCT,
+    EMPTY
 }

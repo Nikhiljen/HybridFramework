@@ -20,16 +20,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class Base {
-    public static Waits waits;
-    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    public abstract class Base {
+        private static ThreadLocal<Waits> waits = new ThreadLocal<>();
+        private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    public static WebDriver getDriver() {
-        return driver.get();
-    }
+        public static WebDriver getDriver() {
+
+            return driver.get();
+        }
+
+        public static Waits getWaits() {
+            return waits.get();
+        }
 
 
-    public static WebDriver openApplication(String browser, String url){
+
+        public static WebDriver openApplication(String browser, String url){
 
         WebDriver drv = null;
 
@@ -70,9 +76,9 @@ public class Base {
         drv.get(url);
 
         //wait for application to load
-        waits = new Waits(drv);
-        waits.setImplicitwait(10);
-        waits.setPageLoadtime(10);
+            waits.set(new Waits(drv));
+        getWaits().setImplicitwait(10);
+        getWaits().setPageLoadtime(10);
         return drv;
 
     }
@@ -108,4 +114,8 @@ public class Base {
 
         return filePath;
     }
+
+        public String getPageTitle() {
+            return Base.getDriver().getTitle();
+        }
 }

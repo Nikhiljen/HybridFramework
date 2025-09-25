@@ -5,8 +5,11 @@ import com.org.pages.*;
 import com.org.utility.DataGetter;
 import com.org.utils.*;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
+
+import java.util.List;
 
 
 @Listeners(com.org.utility.TestListener.class)
@@ -18,6 +21,7 @@ public class HomepageTest extends Base {
     SearchPage searchPage;
     LoginPage loginPage;
     AlertUtility alert;
+    ShoppingCartPage shoppingCartPage;
     private static final Logger logger = LoggerHelper.getLogger(HomepageTest.class);
 
     //Run this before every test case to initialise driver
@@ -25,12 +29,12 @@ public class HomepageTest extends Base {
     public void Setup(){
         System.setProperty("log4j.configurationFile", "src/main/resources/log4j2.xml");
         Base.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
-        homePage = new HomePage(Base.getDriver());
-        registerpage = new RegisterPage(Base.getDriver());
-        searchPage = new SearchPage(Base.getDriver());
-        loginPage = new LoginPage(Base.getDriver());
+        homePage = new HomePage();
+        registerpage = new RegisterPage();
+        searchPage = new SearchPage();
+        loginPage = new LoginPage();
         alert = new AlertUtility(Base.getDriver());
-
+        shoppingCartPage = new ShoppingCartPage();
     }
 
     @Test
@@ -38,7 +42,7 @@ public class HomepageTest extends Base {
         try{
             int responseCode = homePage.ImageProcessor();
             Assert.assertEquals(responseCode,200);
-            logger.info("Test Case 101 PASSED: Response code is " + responseCode);
+            logger.info("Test Case 101 PASSED: Response code is {}", responseCode);
         }catch (AssertionError ae) {
             logger.error("Test Case 101 FAILED: Assertion failed", ae);
             throw ae; // re-throw to let the test framework handle it
@@ -50,15 +54,15 @@ public class HomepageTest extends Base {
 
     @Test
     public void testCase002_verifyLogInPageNavigation(){
-        homePage.headerLink("Log in");
+        LoginPage loginPage = (LoginPage) homePage.headerLink("Log in");
         Assert.assertTrue(loginPage.getPageTitle().contains(configReader.getProperty("loginTitleName")));
         logger.info("Login Page Test is passed");
     }
 
     @Test
     public void testCase003_verifyRegisterPageNavigation(){
-        homePage.headerLink("Register");
-        Assert.assertTrue(registerpage.getPageTitle().contains(configReader.getProperty("registerTitleName")));
+        RegisterPage registerPage = (RegisterPage) homePage.headerLink("Register");
+        Assert.assertTrue(registerPage.getPageTitle().contains(configReader.getProperty("registerTitleName")));
         logger.info("Register Navigation Test is passed");
     }
 
@@ -77,7 +81,7 @@ public class HomepageTest extends Base {
             case INVALID ->{
                 searchPage = homePage.searchItem(itemName);
                 Assert.assertTrue(
-                        searchPage.getErrorMessage().contains(configReader.getProperty("errormessage")),
+                        searchPage.getErrorMessage().contains(configReader.getProperty("errorMessage")),
                                 "Invalid search did not land on search page");
                 logger.info("Search Page INVALID test passed for item: {}", itemName);
             }
@@ -85,19 +89,36 @@ public class HomepageTest extends Base {
             case NO_PRODUCT ->{
                 homePage = homePage.searchEmptyItem(itemName);
                 String errorMessage = alert.acceptAndReturnMessage();
-                Assert.assertEquals(errorMessage,configReader.getProperty("emptyitemMessage"));
+                Assert.assertEquals(errorMessage,configReader.getProperty("emptyItemMessage"));
                 logger.info("Search Page with no Product name test passed for item: {}", itemName);
             }
 
         }
     }
 
-//    @Test
-//    public void testCase005_verifySearchBoxValidationWithValid_Invalid_NoProductName(){
-//        homePage.insertItemInSearchBar(configReader.getProperty("validItemName"));
-//        Assert.assertTrue(searchPage.getPageTitle().contains(configReader.getProperty("SearchTitleName")));
-//        logger.info("Search Page Test is passed");
-//    }
+    @Test
+    public void testCase005_verifyShoppingCartWithDefaultCountItem(){
+        Assert.assertEquals(homePage.getCartCount(),0,"Initial cart count should be 0");
+        logger.info("Default zero item in Shopping Cart Page.......Test is passed");
+    }
+
+    @Test
+    public void testCase006_verifyShoppingCartWithItemAddInCast(){
+        homePage.AddProductToCart();
+        Assert.assertEquals(homePage.getCartCount(),1,"cart count should be 1");
+        logger.info("After Adding item in Shopping Cart Page.......Test is passed");
+    }
+
+    public void testCase007_verifyNavBarLinks(){
+        List<WebElement> parents = homePage.getParentsCategories();
+        for(WebElement parent : parents){
+            String parentText = parent.getText().trim();
+            homePage.hoverAction(parent);
+            List<WebElement> subs = homePage.getSubCategories(parent);
+
+
+        }
+    }
 
 
 

@@ -64,4 +64,13 @@ public class Waits extends Base {
         }
     }
 
+    public void waitForCartCountToBe(WebElement cartCountSpan, int expectedCount, int timeoutSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
+        wait.until(driver -> {
+            String text = cartCountSpan.getText(); // e.g., "(1)"
+            text = text.replaceAll("[^0-9]", "");
+            int count = Integer.parseInt(text);
+            return count == expectedCount;
+        });
+    }
 }
