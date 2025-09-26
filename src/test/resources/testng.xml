@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="TestSuite">
-    <test name="homepageTests">
+<suite name="AllTests" parallel="false">
+    <test name="UI Tests">
         <classes>
-            <class name = "com.org.tests.HomepageTest"/>
-            <class name="com.org.tests.LoginTest"/>
+            <class name="com.org.tests.HomepageTest"/>
+            <class name="com.org.tests.NavBarTest"/>
         </classes>
     </test>
 </suite>

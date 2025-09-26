@@ -24,7 +24,7 @@ public class HomePage extends Base {
 //   used PageFactory method to avoid stale element exceptions
     public HomePage() {
         PageFactory.initElements(getDriver(), this);
-        mouseAction = new MouseAction(getDriver());
+        mouseAction = new MouseAction(Base.getDriver());
     }
 
     //Get all locator here
@@ -139,6 +139,10 @@ public class HomePage extends Base {
 
     public void hoverAction(WebElement parent){
         mouseAction.hover(parent);
+    }
+
+    public void clickAction(WebElement element){
+        mouseAction.click(element);
     }
 
 

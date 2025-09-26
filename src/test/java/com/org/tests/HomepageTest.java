@@ -16,25 +16,23 @@ import java.util.List;
 public class HomepageTest extends Base {
 
     //Initialise
-    HomePage homePage;
-    RegisterPage registerpage;
-    SearchPage searchPage;
-    LoginPage loginPage;
-    AlertUtility alert;
-    ShoppingCartPage shoppingCartPage;
+    private HomePage homePage;
+    private RegisterPage registerPage;
+    private SearchPage searchPage;
+    private LoginPage loginPage;
+    private AlertUtility alert;
     private static final Logger logger = LoggerHelper.getLogger(HomepageTest.class);
 
     //Run this before every test case to initialise driver
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void Setup(){
         System.setProperty("log4j.configurationFile", "src/main/resources/log4j2.xml");
         Base.openApplication(configReader.getProperty("browser"),configReader.getProperty("baseUrl"));
         homePage = new HomePage();
-        registerpage = new RegisterPage();
+        registerPage = new RegisterPage();
         searchPage = new SearchPage();
         loginPage = new LoginPage();
         alert = new AlertUtility(Base.getDriver());
-        shoppingCartPage = new ShoppingCartPage();
     }
 
     @Test
@@ -54,15 +52,15 @@ public class HomepageTest extends Base {
 
     @Test
     public void testCase002_verifyLogInPageNavigation(){
-        LoginPage loginPage = (LoginPage) homePage.headerLink("Log in");
-        Assert.assertTrue(loginPage.getPageTitle().contains(configReader.getProperty("loginTitleName")));
+        loginPage = (LoginPage) homePage.headerLink("Log in");
+        Assert.assertTrue(getPageTitle().contains(configReader.getProperty("loginTitleName")));
         logger.info("Login Page Test is passed");
     }
 
     @Test
     public void testCase003_verifyRegisterPageNavigation(){
-        RegisterPage registerPage = (RegisterPage) homePage.headerLink("Register");
-        Assert.assertTrue(registerPage.getPageTitle().contains(configReader.getProperty("registerTitleName")));
+        registerPage = (RegisterPage) homePage.headerLink("Register");
+        Assert.assertTrue(getPageTitle().contains(configReader.getProperty("registerTitleName")));
         logger.info("Register Navigation Test is passed");
     }
 
@@ -73,7 +71,7 @@ public class HomepageTest extends Base {
             case VALID ->{
                 searchPage = homePage.searchItem(itemName);
                 Assert.assertTrue(
-                        searchPage.getPageTitle().contains(configReader.getProperty("SearchTitleName")),
+                        getPageTitle().contains(configReader.getProperty("SearchTitleName")),
                         "Valid search did not navigate to Search Results page");
                 logger.info("Search Page VALID test passed for item: {}", itemName);
             }
@@ -109,20 +107,16 @@ public class HomepageTest extends Base {
         logger.info("After Adding item in Shopping Cart Page.......Test is passed");
     }
 
-    public void testCase007_verifyNavBarLinks(){
+    @Test(groups = {"smoke"})
+    public void testCase007_verifyQuickNavBarCheck(){
         List<WebElement> parents = homePage.getParentsCategories();
         for(WebElement parent : parents){
-            String parentText = parent.getText().trim();
-            homePage.hoverAction(parent);
-            List<WebElement> subs = homePage.getSubCategories(parent);
-
-
+            Assert.assertTrue(parent.isDisplayed(),"Parent category is Missing : " + parent.getText());
+            logger.info("{} Navbar is view Successfully",parent.getText());
         }
     }
 
-
-
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closedBrowser(){
         Base.closeApplication();
         logger.info("Browser closed successfully.");

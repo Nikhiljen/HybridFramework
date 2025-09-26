@@ -20,25 +20,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-    public abstract class Base {
-        private static ThreadLocal<Waits> waits = new ThreadLocal<>();
-        private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+public abstract class Base {
+    private static ThreadLocal<Waits> waits = new ThreadLocal<>();
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-        public static WebDriver getDriver() {
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
 
-            return driver.get();
-        }
-
-        public static Waits getWaits() {
-            return waits.get();
-        }
-
+    public static Waits getWaits() {
+        return waits.get();
+    }
 
 
-        public static WebDriver openApplication(String browser, String url){
-
+    public static WebDriver openApplication(String browser, String url){
         WebDriver drv = null;
-
 
         if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
@@ -76,7 +72,7 @@ import java.util.Date;
         drv.get(url);
 
         //wait for application to load
-            waits.set(new Waits(drv));
+        waits.set(new Waits(drv));
         getWaits().setImplicitwait(10);
         getWaits().setPageLoadtime(10);
         return drv;
@@ -115,7 +111,7 @@ import java.util.Date;
         return filePath;
     }
 
-        public String getPageTitle() {
+    public static String getPageTitle() {
             return Base.getDriver().getTitle();
         }
 }
