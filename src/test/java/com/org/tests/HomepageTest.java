@@ -112,8 +112,18 @@ public class HomepageTest extends Base {
         List<WebElement> parents = homePage.getParentsCategories();
         for(WebElement parent : parents){
             Assert.assertTrue(parent.isDisplayed(),"Parent category is Missing : " + parent.getText());
-            logger.info("{} Navbar is view Successfully",parent.getText());
+            logger.info("Full {} Navbar is view Successfully on HomePage",parent.getText());
         }
+    }
+
+    @Test(groups = {"smoke"})
+    public void testCase0012_verifyQuickSideBarCheck(){
+        List<WebElement> parents = homePage.getSideBarParentCategory("./div");
+        for(WebElement child:parents){
+            Assert.assertTrue(child.isDisplayed(),"Parent category is Missing : " + child.getText());
+            logger.info("{} Side Navbar is view Successfully in HomePage",child.getText());
+        }
+
     }
 
     @AfterMethod(alwaysRun = true)

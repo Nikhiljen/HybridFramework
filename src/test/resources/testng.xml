@@ -3,7 +3,7 @@
     <test name="UI Tests">
         <classes>
             <class name="com.org.tests.HomepageTest"/>
-            <class name="com.org.tests.NavBarTest"/>
+            <class name="com.org.tests.NavBarAndSideBarTest"/>
         </classes>
     </test>
 </suite>

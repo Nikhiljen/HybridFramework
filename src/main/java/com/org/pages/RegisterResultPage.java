@@ -2,9 +2,7 @@ package com.org.pages;
 
 import com.org.base.Base;
 import com.org.utils.LoggerHelper;
-import com.org.utils.Waits;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -25,7 +23,7 @@ public class RegisterResultPage extends Base {
     //Validation on right page
     public boolean isMessageDisplay(){
         try{
-            return getWaits().waitForVisisblity(resultText,5).isDisplayed();
+            return getWaits().waitForVisibility(resultText,5).isDisplayed();
         }catch (Exception e) {
             return false;
         }

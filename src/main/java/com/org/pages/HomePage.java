@@ -3,10 +3,8 @@ package com.org.pages;
 import com.org.base.Base;
 import com.org.utils.LoggerHelper;
 import com.org.utils.MouseAction;
-import com.org.utils.Waits;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -50,9 +48,16 @@ public class HomePage extends Base {
     @FindBy(xpath = "//ul[@class='top-menu']/li[not(ancestor::ul[@class!='top-menu'])]")
     private List<WebElement> navBarElement;
 
-    //Method to check for homepage
-    public int ImageProcessor() {
-        String ImageUrl = getWaits().waitForVisisblity(image,10).getAttribute("src");
+    @FindBy(xpath = "//*[@class='block block-category-navigation']")
+    private WebElement sideBarCategory;
+
+    @FindBy(xpath = "//*[@class='block block-category-navigation']//div[@class='listbox']//li")
+    private List<WebElement> sideBarNewCategory;
+
+
+  // Method to check for homepage
+  public int ImageProcessor() {
+        String ImageUrl = getWaits().waitForVisibility(image,10).getAttribute("src");
         try {
             if(ImageUrl != null)
             {
@@ -70,6 +75,14 @@ public class HomePage extends Base {
         return -1;
     }
 
+
+    public void hoverAction(WebElement parent){
+        mouseAction.hover(parent);
+    }
+
+    public void clickAction(WebElement element){
+        mouseAction.click(element);
+    }
 
     //Method to check if header link will work or not
     public Base headerLink(String linkName){
@@ -133,17 +146,16 @@ public class HomePage extends Base {
         return navBarElement;
     }
 
+    public List<WebElement> getSideParentsCategories(){
+        return sideBarNewCategory;
+    }
+
+    public List<WebElement> getSideBarParentCategory(String childXpath){
+      return sideBarCategory.findElements(By.xpath(childXpath));
+  }
+
     public List<WebElement> getSubCategories(WebElement parent){
-        return parent.findElements(By.xpath(".//li/a"));
+        return parent.findElements(By.xpath(".//ul/li/a"));
     }
-
-    public void hoverAction(WebElement parent){
-        mouseAction.hover(parent);
-    }
-
-    public void clickAction(WebElement element){
-        mouseAction.click(element);
-    }
-
 
 }

@@ -73,7 +73,7 @@ public abstract class Base {
 
         //wait for application to load
         waits.set(new Waits(drv));
-        getWaits().setImplicitwait(10);
+        getWaits().setImplicitWait(10);
         getWaits().setPageLoadtime(10);
         return drv;
 

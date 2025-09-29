@@ -153,9 +153,9 @@
                         <include>**/*Tests.java</include>
                         <include>**/*TestCase.java</include>
                     </includes>
-                        <suiteXmlFiles>
-                            <suiteXmlFile>C:\HybridFramework\HybridFramework\src\test\resources\testng.xml</suiteXmlFile>
-                        </suiteXmlFiles>
+<!--                        <suiteXmlFiles>-->
+<!--                            <suiteXmlFile>C:\HybridFramework\HybridFramework\src\test\resources\testng.xml</suiteXmlFile>-->
+<!--                        </suiteXmlFiles>-->
                 </configuration>
             </plugin>
         </plugins>
