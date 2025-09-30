@@ -37,10 +37,15 @@ public class Waits extends Base {
 
 
 
-    public void waitForCategoryPage(String categoryName, long timeoutInSeconds) {
+    public void waitForCategoryPage(String expectedText,long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(
-                By.xpath("//div[@class='page-title']/h1"),categoryName));
+        // 1. Wait for the URL to contain the expected text (most reliable)
+        //    We replace spaces and ampersands to match the URL slug (e.g., "apparel & shoes" -> "apparel-shoes")
+//        String urlSlug = expectedText.toLowerCase().replace(" & ", "-").replace(" ", "-");
+//        wait.until(ExpectedConditions.urlContains(urlSlug));
+
+        // 2. Then wait for the stable title element to appear
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='page-title']/h1")));
     }
 
 

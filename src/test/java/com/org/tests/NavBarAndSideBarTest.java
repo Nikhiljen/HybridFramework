@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NavBarAndSideBarTest extends Base {
     private HomePage homePage;
@@ -27,7 +28,7 @@ public class NavBarAndSideBarTest extends Base {
 
     @Test(groups = {"regression"})//
     public void testNavbarSubCategoryCheck(){
-//        HomePage homePage = new HomePage();
+
           List<WebElement> ParentsCategoryList = homePage.getParentsCategories();
           for(WebElement parentList : ParentsCategoryList){
             String parentText = parentList.getText().trim();
@@ -52,35 +53,55 @@ public class NavBarAndSideBarTest extends Base {
         }
     }
 
-    @Test(groups = {"regression"})
-    public void testSideNavBarCheck(){
-        List<WebElement> ParentsCategoryList= homePage.getSideParentsCategories();
 
-        for(WebElement parentElement : ParentsCategoryList){
-            String parentText = parentElement.getText().trim();
-            homePage.hoverAction(parentElement);
-            getWaits().waitForClickable(parentElement, 30).click();
-            getWaits().waitForCategoryPage(parentText, 30);
-            List<WebElement> childElementsList = homePage.getSubCategories(parentElement);
-            if(!childElementsList.isEmpty()){
-                for(WebElement childElement : childElementsList){
-                    String subText = childElement.getText().trim();
-                    homePage.hoverAction(childElement);
-                    getWaits().waitForClickable(childElement, 30).click();
+    //Test method for Side Navbar
+    @Test
+    public void testSideNavBar(){
+        List<String> parentTitles = homePage.getSideParentsCategories()
+                .stream()
+                .map(WebElement::getText)
+                .toList();
+
+        for(String parentText : parentTitles){
+            // 2. RE-FETCH the PARENT ELEMENT to click and navigate
+            WebElement parentElement = homePage.getParentCategoryByText(parentText);
+
+            //Now perform the navigation, which makes the parentElement stale
+
+            homePage.clickAction(parentElement);
+            getWaits().waitForCategoryPage(parentText,10);
+
+            Assert.assertTrue(
+                    Base.getPageTitle().toLowerCase().contains(parentText.toLowerCase()),
+                    "Navigation Failed for Parent Category " + parentText
+            );
+            logger.info("Navigated to Parent Page: {} successfully", parentText);
+
+            // 3. Collect CHILDREN on the destination page
+            List<WebElement> subs = homePage.getSubCategoryListOnPage();
+
+            List<String> subTitles = subs.stream()
+                    .map(WebElement::getText)
+                    .toList();
+
+            if(!subTitles.isEmpty()){
+                for(String subText : subTitles){
+                    // 5. RE-FETCH the CHILD ELEMENT on the current page to click
+                    WebElement subElement = homePage.getSubCategoryByTextOnPage(subText);
+                    homePage.clickAction(subElement); // Navigate away
+
+                    getWaits().waitForCategoryPage(subText,10);
                     Assert.assertTrue(Base.getPageTitle().toLowerCase().contains(subText.toLowerCase()),"Navigation failed for subcategory: " + subText);
-                    logger.info("Navigate SideBar of {} to sub branch page of {} is successfully" , parentText,subText);
+                    logger.info("Navigate from Main NaveBar {} to sub branch page of {} is successfully" , parentText,subText);
+                    // 8. CRUCIAL: Navigate back to the parent page to re-test the next child
                     Base.getDriver().navigate().back();
-                    homePage.hoverAction(parentElement);
-
+                    getWaits().waitForCategoryPage(parentText,10); // Wait for the Parent page to reload
+                    // --- END OF INNER LOOP ---
                 }
-            }else {
-                Assert.assertTrue(
-                        Base.getPageTitle().toLowerCase().contains(parentText.toLowerCase()),
-                        "Navigation Failed for Parent Category " + parentText
-                );
-                logger.info("Navigated SideBar Main Page {} successfully", parentText);
-                Base.getDriver().navigate().back();
             }
+
+            // 9. Navigate back to the home page to start the next Parent category's test
+            Base.getDriver().navigate().back();
         }
 
     }
@@ -91,3 +112,4 @@ public class NavBarAndSideBarTest extends Base {
         logger.info("Browser closed successfully.");
     }
 }
+

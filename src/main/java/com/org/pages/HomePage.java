@@ -51,8 +51,13 @@ public class HomePage extends Base {
     @FindBy(xpath = "//*[@class='block block-category-navigation']")
     private WebElement sideBarCategory;
 
-    @FindBy(xpath = "//*[@class='block block-category-navigation']//div[@class='listbox']//li")
+
+//    WebElement locator for side nav bar
+
+    @FindBy(xpath = "//div[@class='block block-category-navigation']//div[@class='listbox']/ul/li/a")
     private List<WebElement> sideBarNewCategory;
+
+
 
 
   // Method to check for homepage
@@ -146,16 +151,44 @@ public class HomePage extends Base {
         return navBarElement;
     }
 
-    public List<WebElement> getSideParentsCategories(){
-        return sideBarNewCategory;
-    }
-
     public List<WebElement> getSideBarParentCategory(String childXpath){
       return sideBarCategory.findElements(By.xpath(childXpath));
   }
 
     public List<WebElement> getSubCategories(WebElement parent){
-        return parent.findElements(By.xpath(".//ul/li/a"));
+        return parent.findElements(By.xpath("./ul/li"));
     }
+
+    //Method to Used for Side Bar
+
+    public List<WebElement> getSideParentsCategories(){
+        // Returns the list of WebElements found when the Page Object was initialized.
+        return sideBarNewCategory;
+    }
+
+    public WebElement getParentCategoryByText(String parentText) {
+        // Searches the entire page for the link matching the text in the sidebar.
+        String xpath = String.format(
+                "//div[@class='block block-category-navigation']//div[@class='listbox']/ul/li/a[normalize-space(.)='%s']",
+                parentText
+        );
+        // Assumes Base.getDriver() returns the WebDriver instance
+        return Base.getDriver().findElement(By.xpath(xpath));
+    }
+
+    public List<WebElement> getSubCategoryListOnPage(){
+        // Searches for all sub-category links in the sidebar block on the current page.
+        return Base.getDriver().findElements(By.xpath("//div[@class='block block-category-navigation']/div[@class='listbox']/ul[@class='list']/li/ul/li"));
+    }
+
+    public WebElement getSubCategoryByTextOnPage(String subText) {
+        // Searches for the specific sub-category link (e.g., "Desktops") on the current page.
+        String xpath = String.format(
+                "//div[@class='block block-category-navigation']//ul/li/a[normalize-space(.)='%s']",
+                subText
+        );
+        return Base.getDriver().findElement(By.xpath(xpath));
+    }
+
 
 }
